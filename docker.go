@@ -1,12 +1,11 @@
-package easy
+package cleantest
 
 import (
 	"database/sql"
 	"fmt"
-	"time"
-
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
+	"time"
 )
 
 // init docker container
