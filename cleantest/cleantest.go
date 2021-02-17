@@ -2,6 +2,7 @@ package cleantest
 
 import (
 	"database/sql"
+
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database"
 	"github.com/ory/dockertest/v3"
@@ -77,13 +78,13 @@ var (
 )
 
 // new clean test
-func New() {
+func New(migrationFileName string) {
 	//run docker container
 	// details in function
 	initDockerContainerForTesting()
 	// run migrations
 	// details in function
-	initMigrations()
+	initMigrations(migrationFileName)
 
 }
 

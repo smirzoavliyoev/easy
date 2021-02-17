@@ -3,12 +3,14 @@ package cleantest
 import (
 	"database/sql"
 	"fmt"
+
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 
+	"time"
+
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/lib/pq"
-	"time"
 )
 
 // init migrations
@@ -26,7 +28,7 @@ import (
 
 // more here
 
-func initMigrations() {
+func initMigrations(migrattionFileName string) {
 
 	// get connection to db in docker container
 	dbConn, err := sql.Open("postgres", fmt.Sprintf(
@@ -43,7 +45,6 @@ func initMigrations() {
 		dbConn.Close()
 	})
 
-
 	//set configuration
 	// its not important
 	dbConn.SetConnMaxIdleTime(time.Minute * 5)
@@ -57,7 +58,6 @@ func initMigrations() {
 		RunDef()
 		panic(err)
 	}
-
 
 	// dirver for migrations
 	driver, err = postgres.WithInstance(dbConn, &postgres.Config{
@@ -74,10 +74,14 @@ func initMigrations() {
 		driver.Close()
 	})
 
-
 	// new migration
+
+	if migrattionFileName == "" {
+		migrattionFileName = "file://./../../../migrations/"
+	}
+
 	mg, err = migrate.NewWithDatabaseInstance(
-		"file://./../../../migrations/",
+		migrattionFileName,
 		"mobidb",
 		driver,
 	)
@@ -87,7 +91,6 @@ func initMigrations() {
 		panic(err)
 	}
 
-
 	// up migrations
 	err = mg.Up()
 
@@ -95,7 +98,6 @@ func initMigrations() {
 		RunDef()
 		panic(err)
 	}
-
 
 	// add Down migrations in deferStack
 	deferStack = append(deferStack, func() {
