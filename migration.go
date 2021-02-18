@@ -1,4 +1,4 @@
-package cleantest
+package easy
 
 import (
 	"database/sql"
