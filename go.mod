@@ -1,4 +1,4 @@
-module alif/easy
+module github.com/alifcapital/easy
 
 go 1.15
 
