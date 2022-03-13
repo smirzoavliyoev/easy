@@ -1,4 +1,4 @@
-module github.com/alifcapital/easy
+module github.com/smirzoavliyoev/easy
 
 go 1.15
 
